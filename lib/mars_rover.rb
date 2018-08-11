@@ -21,7 +21,6 @@ class MarsRover
           return turn_right(@direction)
         when 'F'
           return turn_right(@direction)
-        end 
       end 
     end 
 
