@@ -92,7 +92,7 @@ describe MarsRover do
     context 'passed multiple string to move forward,backward,right,left' do
       it 'for facing north direction to west' do
         rover = mars_rover(:N,10,12)
-        rover.move('FLFB')
+        rover.move('flfB')
         expect(rover.position).to eq([10,13])
         expect(rover.compass).to eq(:W)
       end 
@@ -102,13 +102,6 @@ describe MarsRover do
         rover.move('FBLRLLFF')
         expect(rover.position).to eq([4,2])
         expect(rover.compass).to eq(:E)
-      end 
-
-      it 'for facing south direction to north' do
-        rover = mars_rover(:S,22,22)
-        rover.move('RRFFF')
-        expect(rover.position).to eq([22,25])
-        expect(rover.compass).to eq(:N)
       end 
 
       it 'for facing east direction to west' do
