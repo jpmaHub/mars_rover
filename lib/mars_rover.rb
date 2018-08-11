@@ -19,7 +19,10 @@ class MarsRover
           return turn_left(@direction)
         when 'R'
           return turn_right(@direction)
+        when 'F'
+          return turn_right(@direction)
         end 
+      end 
     end 
 
     def turn_left(direction)
