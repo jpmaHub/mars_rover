@@ -19,7 +19,25 @@ class MarsRover
           return turn_left(@direction)
         when 'R'
           return turn_right(@direction)
+        when 'F'
+          return turn_forward(@direction)
+        when 'B'
+          return turn_backward(@direction)
       end 
+    end 
+
+    def turn_forward(direction)
+      return @y_coordinate += 1 if direction == :N
+      return @y_coordinate -= 1 if direction == :S
+      return @x_coordinate += 1 if direction == :E
+      return @x_coordinate -= 1 if direction == :W
+    end
+
+    def turn_backward(direction)
+      return @y_coordinate += 1 if direction == :S
+      return @y_coordinate -= 1 if direction == :N
+      return @x_coordinate += 1 if direction == :W
+      return @x_coordinate -= 1 if direction == :E
     end 
 
     def turn_left(direction)
@@ -35,22 +53,9 @@ class MarsRover
       @compass.find_index(direction)
     end 
 
-    def execute(change_direction , steps)
-      case change_direction.upcase
-        when 'F'
-            return turn_forward(steps)
-        when 'B'
-            return turn_backward(steps)
-        when 'L'
-            return turn_left(steps)
-        when 'R'
-            return turn_right(steps)
-      end 
-    end 
-
     def position
         return '' if @x_coordinate.nil? && @y_coordinate.nil?
-        [@x_coordinate,@y_coordinate]
+        [@x_coordinate, @y_coordinate]
     end 
 
     def compass
