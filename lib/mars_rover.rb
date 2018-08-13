@@ -1,13 +1,13 @@
 class MarsRover
-    def initialize(direction: , x: , y:)
-      @direction = direction
+    def initialize(facing_direction: , x: , y:)
+      @facing_direction = facing_direction
       @x_coordinate = x
       @y_coordinate = y
       @compass = [:N,:E,:S,:W].freeze
     end 
 
-    def move(moves)
-      moves = moves.split(//)   
+    def move(commands)
+      moves = commands.split(//)   
       moves.each do |move|
         turn(move)
       end 
@@ -16,50 +16,54 @@ class MarsRover
     def turn(move)
       case move.upcase
         when 'L'
-          return turn_left(@direction)
+          return turn_left(@facing_direction)
         when 'R'
-          return turn_right(@direction)
+          return turn_right(@facing_direction)
         when 'F'
-          return turn_forward(@direction)
+          return turn_forward(@facing_direction)
         when 'B'
-          return turn_backward(@direction)
+          return turn_backward(@facing_direction)
       end 
     end 
 
-    def turn_forward(direction)
-      return @y_coordinate += 1 if direction == :N
-      return @y_coordinate -= 1 if direction == :S
-      return @x_coordinate += 1 if direction == :E
-      return @x_coordinate -= 1 if direction == :W
+    def turn_forward(facing_direction)
+      return @y_coordinate += 1 if facing_direction == :N
+      return @y_coordinate -= 1 if facing_direction == :S
+      return @x_coordinate += 1 if facing_direction == :E
+      return @x_coordinate -= 1 if facing_direction == :W
     end
 
-    def turn_backward(direction)
-      return @y_coordinate += 1 if direction == :S
-      return @y_coordinate -= 1 if direction == :N
-      return @x_coordinate += 1 if direction == :W
-      return @x_coordinate -= 1 if direction == :E
+    def turn_backward(facing_direction)
+      return @y_coordinate += 1 if facing_direction == :S
+      return @y_coordinate -= 1 if facing_direction == :N
+      return @x_coordinate += 1 if facing_direction == :W
+      return @x_coordinate -= 1 if facing_direction == :E
     end 
 
-    def turn_left(direction)
-      return @direction = @compass[find_index(direction) - 1]
+    def turn_left(facing_direction)
+      return @facing_direction = @compass[find_index(facing_direction) - 1]
     end 
 
-    def turn_right(direction)
-      return @direction = @compass.first if @compass[find_index(direction)] == @compass.last
-      return @direction = @compass[find_index(direction) + 1]
+    def turn_right(facing_direction)
+      return @facing_direction = @compass.first if @compass[find_index(facing_direction)] == @compass.last
+      return @facing_direction = @compass[find_index(facing_direction) + 1]
     end 
 
-    def find_index(direction)
-      @compass.find_index(direction)
+    def find_index(facing_direction)
+      @compass.find_index(facing_direction)
     end 
 
     def position
-        return '' if @x_coordinate.nil? && @y_coordinate.nil?
+        return '' if coordinates_nil?
         [@x_coordinate, @y_coordinate]
     end 
 
+    def coordinates_nil?
+      @x_coordinate.nil? && @y_coordinate.nil?
+    end 
+
     def compass
-      return '' if @direction.nil?
-      @direction
+      return '' if @facing_direction.nil?
+      @facing_direction
     end 
 end 

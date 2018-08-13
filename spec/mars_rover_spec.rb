@@ -1,7 +1,7 @@
 require 'mars_rover'
 
-def mars_rover(direction , x_coord , y_coord)
-  MarsRover.new(direction: direction, x: x_coord , y:y_coord)
+def mars_rover(direction , x_coordinates , y_coordinates)
+  MarsRover.new(facing_direction:direction, x: x_coordinates , y:y_coordinates)
 end 
 
 describe MarsRover do
