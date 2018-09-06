@@ -1,130 +1,189 @@
+# frozen_string_literal: true
+
 require 'mars_rover'
 
-def mars_rover(direction , x_coordinates , y_coordinates)
-  MarsRover.new(facing_direction:direction, x: x_coordinates , y:y_coordinates)
-end 
+def mars_rover(direction, x_coordinates, y_coordinates)
+  MarsRover.new(facing_direction: direction, x: x_coordinates, y: y_coordinates)
+end
 
-def mars_rover_with_grid(direction , x_coordinates , y_coordinates, grid)
-  MarsRover.new(facing_direction:direction, x: x_coordinates , y:y_coordinates, grid: grid)
-end 
+def mars_rover_with_grid(direction, x_coordinates, y_coordinates, grid)
+  MarsRover.new(facing_direction: direction, x: x_coordinates, y: y_coordinates, grid: grid)
+end
 
 describe MarsRover do
-
-   it 'returns empty string when nils passed' do
-    rover = mars_rover(nil,nil,nil)
+  it 'returns empty string when nils passed' do
+    rover = mars_rover(nil, nil, nil)
     expect(rover.position).to eq('')
     expect(rover.compass).to eq('')
-   end 
+  end
 
-   it 'returns (direction :N , x: 0 , x:0) when arguments passed' do
-    rover = mars_rover(:N,0,0)
-    expect(rover.position).to eq([0,0])
+  it 'returns (direction :N , x: 0 , x:0) when arguments passed' do
+    rover = mars_rover(:N, 0, 0)
+    expect(rover.position).to eq([0, 0])
     expect(rover.compass).to eq(:N)
-    end 
+  end
 
   context 'turn left and right command' do
     context 'passed string to turn the direction to left and right' do
       it 'for facing north direction to west' do
-        rover = mars_rover(:N,0,0)
+        rover = mars_rover(:N, 0, 0)
         rover.move('L')
-        expect(rover.position).to eq([0,0])
+        expect(rover.position).to eq([0, 0])
         expect(rover.compass).to eq(:W)
-      end 
+      end
 
       it 'for facing north direction to east' do
-        rover = mars_rover(:N,0,0)
+        rover = mars_rover(:N, 0, 0)
         rover.move('R')
-        expect(rover.position).to eq([0,0])
+        expect(rover.position).to eq([0, 0])
         expect(rover.compass).to eq(:E)
-      end 
+      end
 
       it 'for facing east direction to south' do
-        rover = mars_rover(:E,0,0)
+        rover = mars_rover(:E, 0, 0)
         rover.move('R')
-        expect(rover.position).to eq([0,0])
+        expect(rover.position).to eq([0, 0])
         expect(rover.compass).to eq(:S)
-      end 
-    end 
+      end
+    end
 
     context 'passed multiple string to the direction' do
       it 'for facing north direction to north' do
-        rover = mars_rover(:N,0,0)
+        rover = mars_rover(:N, 0, 0)
         rover.move('LR')
-        expect(rover.position).to eq([0,0])
+        expect(rover.position).to eq([0, 0])
         expect(rover.compass).to eq(:N)
-      end 
+      end
 
       it 'for facing south direction to west' do
-        rover = mars_rover(:S,0,0)
+        rover = mars_rover(:S, 0, 0)
         rover.move('LRRLR')
-        expect(rover.position).to eq([0,0])
-        expect(rover.compass).to eq(:W)
-      end 
-
-      it 'for facing east direction to south' do
-        rover = mars_rover(:E,0,0)
-        rover.move('RRL')
-        expect(rover.position).to eq([0,0])
-        expect(rover.compass).to eq(:S)
-      end 
-
-      it 'for facing west direction to west' do
-        rover = mars_rover(:W,0,0)
-        rover.move('LRLR')
-        expect(rover.position).to eq([0,0])
+        expect(rover.position).to eq([0, 0])
         expect(rover.compass).to eq(:W)
       end
-    end 
-  end 
+
+      it 'for facing east direction to south' do
+        rover = mars_rover(:E, 0, 0)
+        rover.move('RRL')
+        expect(rover.position).to eq([0, 0])
+        expect(rover.compass).to eq(:S)
+      end
+
+      it 'for facing west direction to west' do
+        rover = mars_rover(:W, 0, 0)
+        rover.move('LRLR')
+        expect(rover.position).to eq([0, 0])
+        expect(rover.compass).to eq(:W)
+      end
+    end
+  end
 
   context 'passed multiple string to move forward' do
     it 'for facing north direction' do
-      rover = mars_rover(:N,10,12)
+      rover = mars_rover(:N, 10, 12)
       rover.move('FFFF')
-      expect(rover.position).to eq([10,16])
+      expect(rover.position).to eq([10, 16])
       expect(rover.compass).to eq(:N)
-    end 
+    end
 
     it 'for facing east direction' do
-      rover = mars_rover(:E,22,22)
+      rover = mars_rover(:E, 22, 22)
       rover.move('BBBBB')
-      expect(rover.position).to eq([17,22])
+      expect(rover.position).to eq([17, 22])
       expect(rover.compass).to eq(:E)
-    end 
-  end 
+    end
+  end
 
   context 'passed multiple string to move forward,backward,right,left' do
     it 'for facing north direction to west' do
-      rover = mars_rover(:N,10,12)
+      rover = mars_rover(:N, 10, 12)
       rover.move('flfB')
-      expect(rover.position).to eq([10,13])
-      expect(rover.compass).to eq(:W)
-    end 
-
-    it 'for facing west direction to east' do
-      rover = mars_rover(:W,2,2)
-      rover.move('FBLRLLFF')
-      expect(rover.position).to eq([4,2])
-      expect(rover.compass).to eq(:E)
-    end 
-
-    it 'for facing east direction to west' do
-      rover = mars_rover(:E,22,22)
-      rover.move('BLFLLFR')
-      expect(rover.position).to eq([21,22])
+      expect(rover.position).to eq([10, 13])
       expect(rover.compass).to eq(:W)
     end
-  end 
+
+    it 'for facing west direction to east' do
+      rover = mars_rover(:W, 2, 2)
+      rover.move('FBLRLLFF')
+      expect(rover.position).to eq([4, 2])
+      expect(rover.compass).to eq(:E)
+    end
+
+    it 'for facing east direction to west' do
+      rover = mars_rover(:E, 22, 22)
+      rover.move('BLFLLFR')
+      expect(rover.position).to eq([21, 22])
+      expect(rover.compass).to eq(:W)
+    end
+  end
 
   context 'when grid passed' do
     it 'can assign grid size' do
-      rover = mars_rover_with_grid(:N, 10, 12, [12,12])
-      expect(rover.grid).to eq([12,12])
-    end 
+      rover = mars_rover_with_grid(:N, 10, 12, [12, 12])
+      expect(rover.grid).to eq([12, 12])
+    end
 
     it 'can use default value 100x100 when grid is not assigned' do
-      rover = mars_rover(:N,10,12)
-      expect(rover.grid).to eq([100,100])
-    end 
-  end 
-end 
+      rover = mars_rover(:N, 10, 12)
+      expect(rover.grid).to eq([100, 100])
+    end
+
+    context 'passed string to move forward' do
+      it 'can return X to 0 when grid is passed' do
+        rover = mars_rover_with_grid(:E, 9, 9, [10, 10])
+        rover.move('F')
+        expect(rover.position).to eq([0, 9])
+      end
+
+      it 'can return X to 0 when grid is passed for east' do
+        rover = mars_rover_with_grid(:E, 9, 9, [11, 10])
+        rover.move('F')
+        expect(rover.position).to eq([10, 9])
+      end
+
+      it 'can return X to 0 when grid is passed for west' do
+        rover = mars_rover_with_grid(:W, 9, 9, [8, 10])
+        rover.move('F')
+        expect(rover.position).to eq([0, 9])
+      end
+
+      it 'can return Y to 0 when grid is passed for south' do
+        rover = mars_rover_with_grid(:S, 9, 9, [10, 8])
+        rover.move('F')
+        expect(rover.position).to eq([9, 0])
+      end
+
+      it 'can return Y to 0 when grid is passed for north' do
+        rover = mars_rover_with_grid(:N, 9, 9, [10, 10])
+        rover.move('F')
+        expect(rover.position).to eq([9, 0])
+      end
+    end
+
+    context 'passed multiple string to move backward' do
+      it 'can return X to 0 when grid is passed' do
+        rover = mars_rover_with_grid(:W, 9, 9, [10, 10])
+        rover.move('B')
+        expect(rover.position).to eq([0, 9])
+      end
+
+      it 'can return X to 0 when grid is passed for west' do
+        rover = mars_rover_with_grid(:E, 9, 9, [8, 10])
+        rover.move('B')
+        expect(rover.position).to eq([0, 9])
+      end
+
+      it 'can return Y to 0 when grid is passed for south' do
+        rover = mars_rover_with_grid(:N, 9, 9, [10, 8])
+        rover.move('B')
+        expect(rover.position).to eq([9, 0])
+      end
+
+      it 'can return Y to 0 when grid is passed for north' do
+        rover = mars_rover_with_grid(:S, 9, 9, [10, 10])
+        rover.move('B')
+        expect(rover.position).to eq([9, 0])
+      end
+    end
+  end
+end
