@@ -1,8 +1,9 @@
 class MarsRover
-    def initialize(facing_direction: , x: , y:)
+    def initialize(facing_direction: , x: , y: , grid: [100, 100])
       @facing_direction = facing_direction
       @x_coordinate = x
       @y_coordinate = y
+      @grid = grid
       @compass = [:N,:E,:S,:W].freeze
     end 
 
@@ -12,6 +13,10 @@ class MarsRover
         turn(move)
       end 
     end 
+
+    def grid
+      @grid
+    end
 
     def turn(move)
       case move.upcase
