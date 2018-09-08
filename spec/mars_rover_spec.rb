@@ -10,6 +10,10 @@ def mars_rover_with_grid(direction, x_coordinates, y_coordinates, grid)
   MarsRover.new(facing_direction: direction, x: x_coordinates, y: y_coordinates, grid: grid)
 end
 
+def mars_rover_with_obstacles(direction, x_coordinates, y_coordinates, obstacles)
+  MarsRover.new(facing_direction: direction, x: x_coordinates, y: y_coordinates, obstacles: obstacles)
+end
+
 describe MarsRover do
   it 'returns empty string when nils passed' do
     rover = mars_rover(nil, nil, nil)
@@ -184,6 +188,54 @@ describe MarsRover do
         rover.move('B')
         expect(rover.position).to eq([9, 0])
       end
+
+      it 'can return Y to 0 when grid is passed for north' do
+        rover = mars_rover_with_grid(:S, 9, 8, [10, 10])
+        rover.move('BBFB')
+        expect(rover.position).to eq([9, 0])
+      end
+    end
+  end
+
+  context 'obstacle detection' do
+    it 'can assign obstacles' do
+      rover = mars_rover_with_obstacles(:N, 10, 12, [[5, 5], [3, 7]])
+      expect(rover.obstacles).to eq([[5, 5], [3, 7]])
+    end
+
+    it 'can assign obstacles' do
+      rover = mars_rover(:N, 10, 12)
+      expect(rover.obstacles.length).to eq(0)
+    end
+
+    it 'can not move to the obstacle' do
+      rover = mars_rover_with_obstacles(:E, 0, 0, [[5, 1], [3, 0]])
+      rover.move('fff')
+      expect(rover.position).to eq([2, 0])
+    end
+
+    it 'can not move to the obstacle' do
+      rover = mars_rover_with_obstacles(:E, 0, 0, [[3, 0]])
+      rover.move('ffflf')
+      expect(rover.position).to eq([2, 0])
+    end
+
+    it 'can not move to the obstacle' do
+      rover = mars_rover_with_obstacles(:E, 0, 0, [[3, 0], [5, 2], [0, 0]])
+      rover.move('ffflf')
+      expect(rover.position).to eq([2, 0])
+    end
+
+    it 'can set status when obstacle is detected' do
+      rover = mars_rover_with_obstacles(:E, 0, 0, [[1, 0]])
+      rover.move('f')
+      expect(rover.status).to eq(:Obstacle)
+    end
+
+    it 'can set status when obstacle is not detected' do
+      rover = mars_rover(:E, 0, 0)
+      rover.move('f')
+      expect(rover.status).to eq(:OK)
     end
   end
 end

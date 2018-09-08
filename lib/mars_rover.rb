@@ -1,22 +1,52 @@
 # frozen_string_literal: true
 
 class MarsRover
-  def initialize(facing_direction:, x:, y:, grid: [100, 100])
+  attr_reader :grid,
+              :obstacles
+
+  def initialize(facing_direction:, x:, y:, grid: [100, 100], obstacles: [])
     @facing_direction = facing_direction
     @x_coordinate = x
     @y_coordinate = y
     @grid = grid
+    @obstacles = obstacles
     @compass = %i[N E S W].freeze
+  end
+
+  def find_x_obstacles
+    x_coord = []
+      @obstacles.each do |x, _y|
+        x_coord.push(x)
+      end
+    x_coord
+  end
+
+  def find_y_obstacles
+    y_coord = []
+    @obstacles.each do |_x, y|
+      y_coord.push(y)
+    end
+    y_coord
+  end
+
+  def status
+    return :Obstacle if reach_obstacle?
+    :OK
+  end
+
+  def obstacles_detected
+    @x_coordinate -= 1 if grid_x_coordinate
+    @y_coordinate -= 1 if grid_y_coordinate
+    [@x_coordinate, @y_coordinate]
   end
 
   def move(commands)
     moves = commands.split(//)
     moves.each do |move|
-      turn(move)
+      turn(move) unless reach_obstacle?
+      turn(move) if @obstacles.include?([0,0])
     end
   end
-
-  attr_reader :grid
 
   def turn(move)
     case move.upcase
@@ -57,6 +87,7 @@ class MarsRover
   def position
     return '' if coordinates_nil?
     return grid_passed if reach_grid?
+    return obstacles_detected if reach_obstacle?
     [@x_coordinate, @y_coordinate]
   end
 
@@ -69,6 +100,12 @@ class MarsRover
     @x_coordinate = 0 if grid_x_coordinate
     @y_coordinate = 0 if grid_y_coordinate
     [@x_coordinate, @y_coordinate]
+  end
+
+  def reach_obstacle?
+    x_coord = find_x_obstacles
+    y_coord = find_y_obstacles
+    x_coord.include?(@x_coordinate) && grid_x_coordinate || y_coord.include?(@y_coordinate) && grid_y_coordinate
   end
 
   def reach_grid?
