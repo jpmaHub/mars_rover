@@ -4,10 +4,10 @@ class MarsRover
   attr_reader :grid,
               :obstacles
 
-  def initialize(facing_direction:, x:, y:, grid: [100, 100], obstacles: [])
+  def initialize(facing_direction:, coordinates:, grid: [100, 100], obstacles: [])
     @facing_direction = facing_direction
-    @x_coordinate = x
-    @y_coordinate = y
+    @x_coordinate = coordinates[0]
+    @y_coordinate = coordinates[1]
     @grid = grid
     @obstacles = obstacles
     @compass = %i[N E S W].freeze
