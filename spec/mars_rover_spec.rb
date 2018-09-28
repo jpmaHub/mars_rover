@@ -16,8 +16,8 @@ end
 
 describe MarsRover do
   it 'returns empty string when nils passed' do
-    rover = mars_rover(nil, [])
-    # xexpect(rover.position).to eq('')
+    rover = mars_rover(nil, nil)
+    expect(rover.position).to eq('')
     expect(rover.compass).to eq('')
   end
 
